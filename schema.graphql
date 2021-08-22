@@ -1,5 +1,11 @@
-type ExampleEntity @entity {
+type Airdrop @entity {
   id: ID!
-  count: BigInt!
-  _tokenId: BigInt! # uint256
+  receiver: [AirdropReceiver!]! @derivedFrom(field: "airdrop")
+}
+
+type AirdropReceiver @entity {
+  id: ID!
+  airdrop: Airdrop!
+  amount: BigInt!
+  gotchi: BigInt!
 }

@@ -67,7 +67,8 @@ import {
   ApprovalForAll1,
   Transfer
 } from "../generated/AavegotchiDiamond/AavegotchiDiamond"
-import { ExampleEntity } from "../generated/schema"
+import { AirdropReceiver, ExampleEntity } from "../generated/schema"
+import { getOrCreateAirdrop } from "./helper"
 
 export function handleClaimAavegotchi(event: ClaimAavegotchi): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -226,7 +227,23 @@ export function handleGameManagerTransferred(
   event: GameManagerTransferred
 ): void {}
 
-export function handleGrantExperience(event: GrantExperience): void {}
+export function handleGrantExperience(event: GrantExperience): void {
+    let blockNumber = event.block.number;
+    let airdrop = getOrCreateAirdrop(blockNumber);
+    let receivers: BigInt[] = event.params._tokenIds;
+    let amounts: BigInt[] = event.params._xpValues;
+
+    for(let i=0; i < receivers.length; i++) {
+      let gotchi = receivers[i];
+      let amount = amounts[i];
+
+      let ar = new AirdropReceiver(blockNumber.toString()+"-"+gotchi.toString())
+      ar.gotchi = gotchi;
+      ar.amount = amount;
+      ar.airdrop = blockNumber.toString();
+      ar.save();
+    }
+}
 
 export function handleItemTypeMaxQuantity(event: ItemTypeMaxQuantity): void {}
 
