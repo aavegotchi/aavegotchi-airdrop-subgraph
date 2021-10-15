@@ -67,122 +67,11 @@ import {
   ApprovalForAll1,
   Transfer
 } from "../generated/AavegotchiDiamond/AavegotchiDiamond"
-import { AirdropReceiver, ExampleEntity } from "../generated/schema"
+import { AirdropReceiver } from "../generated/schema"
 import { getOrCreateAirdrop } from "./helper"
 
 export function handleClaimAavegotchi(event: ClaimAavegotchi): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity._tokenId = event.params._tokenId
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.aavegotchiClaimTime(...)
-  // - contract.allAavegotchisOfOwner(...)
-  // - contract.balanceOf(...)
-  // - contract.getAavegotchi(...)
-  // - contract.getApproved(...)
-  // - contract.isApprovedForAll(...)
-  // - contract.name(...)
-  // - contract.ownerOf(...)
-  // - contract.symbol(...)
-  // - contract.tokenByIndex(...)
-  // - contract.tokenIdsOfOwner(...)
-  // - contract.tokenOfOwnerByIndex(...)
-  // - contract.tokenURI(...)
-  // - contract.totalSupply(...)
-  // - contract.aavegotchiLevel(...)
-  // - contract.aavegotchiNameAvailable(...)
-  // - contract.availableSkillPoints(...)
-  // - contract.baseRarityScore(...)
-  // - contract.currentHaunt(...)
-  // - contract.getNumericTraits(...)
-  // - contract.ghstAddress(...)
-  // - contract.kinship(...)
-  // - contract.modifiedTraitsAndRarityScore(...)
-  // - contract.portalAavegotchiTraits(...)
-  // - contract.rarityMultiplier(...)
-  // - contract.revenueShares(...)
-  // - contract.xpUntilNextLevel(...)
-  // - contract.childChainManager(...)
-  // - contract.collateralBalance(...)
-  // - contract.collateralInfo(...)
-  // - contract.collaterals(...)
-  // - contract.getCollateralInfo(...)
-  // - contract.createHaunt(...)
-  // - contract.gameManager(...)
-  // - contract.getERC1155Category(...)
-  // - contract.getERC1155Listing(...)
-  // - contract.getERC1155ListingFromToken(...)
-  // - contract.getERC1155Listings(...)
-  // - contract.getListingFeeInWei(...)
-  // - contract.getOwnerERC1155Listings(...)
-  // - contract.getAavegotchiListing(...)
-  // - contract.getAavegotchiListings(...)
-  // - contract.getERC721Category(...)
-  // - contract.getERC721Listing(...)
-  // - contract.getERC721ListingFromToken(...)
-  // - contract.getERC721Listings(...)
-  // - contract.getOwnerAavegotchiListings(...)
-  // - contract.getOwnerERC721Listings(...)
-  // - contract.balanceOf(...)
-  // - contract.balanceOfBatch(...)
-  // - contract.balanceOfToken(...)
-  // - contract.equippedWearables(...)
-  // - contract.findWearableSets(...)
-  // - contract.getItemType(...)
-  // - contract.getItemTypes(...)
-  // - contract.getWearableSet(...)
-  // - contract.getWearableSets(...)
-  // - contract.itemBalances(...)
-  // - contract.itemBalancesOfToken(...)
-  // - contract.itemBalancesOfTokenWithTypes(...)
-  // - contract.itemBalancesWithTypes(...)
-  // - contract.totalWearableSets(...)
-  // - contract.uri(...)
-  // - contract.onERC1155BatchReceived(...)
-  // - contract.onERC1155Received(...)
-  // - contract.getNonce(...)
-  // - contract.getAavegotchiSvg(...)
-  // - contract.getItemSvg(...)
-  // - contract.getSvg(...)
-  // - contract.getSvgs(...)
-  // - contract.portalAavegotchisSvg(...)
-  // - contract.keyHash(...)
-  // - contract.link(...)
-  // - contract.linkBalance(...)
-  // - contract.vrfCoordinator(...)
+  
 }
 
 export function handleLockAavegotchi(event: LockAavegotchi): void {}
@@ -241,6 +130,7 @@ export function handleGrantExperience(event: GrantExperience): void {
       ar.gotchi = gotchi;
       ar.amount = amount;
       ar.airdrop = blockNumber.toString();
+      ar.timestamp = event.block.timestamp;
       ar.save();
     }
 }

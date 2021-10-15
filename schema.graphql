@@ -8,4 +8,5 @@ type AirdropReceiver @entity {
   airdrop: Airdrop!
   amount: BigInt!
   gotchi: BigInt!
+  timestamp: BigInt!
 }
