@@ -25,5 +25,5 @@ jobs:
         run: |
           yarn global add @graphprotocol/graph-cli
           echo "$(yarn global bin)" >> $GITHUB_PATH
-          graph deploy --access-token ${{secrets.GRAPH_ACCESS_TOKEN}} aavegotchi/aavegotchi-airdrops-subgraph subgraph.yaml --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/
+          graph deploy --product hosted-service aavegotchi/xp-airdrops
         shell: bash
