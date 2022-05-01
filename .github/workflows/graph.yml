@@ -1,8 +1,9 @@
-name: Deploy Graph
+name: Deploy to Hosted Service
 
 on:
   push:
-    branches: master
+    branches:
+      - master
 
 jobs:
   deploy:
@@ -13,17 +14,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: Install Yarn
-        run: npm i -g yarn
-      - name: Install Libs
-        run: yarn --frozen-lockfile
-      - name: Codegen
-        run: yarn codegen
-      - name: Build
-        run: yarn build
-      - name: Deploy to Subgraph
+      - name: Deploy to Hosted Servce
         run: |
-          yarn global add @graphprotocol/graph-cli
-          echo "$(yarn global bin)" >> $GITHUB_PATH
-          graph deploy --product hosted-service aavegotchi/xp-airdrops
+          npm i -g yarn
+          yarn --frozen-lockfile
+          yarn codegen
+          yarn build
+          npx graph deploy --product hosted-service --access-token ${{secrets.GRAPH_ACCESS_TOKEN}} aavegotchi/xp-airdrops
         shell: bash
